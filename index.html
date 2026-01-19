@@ -379,49 +379,69 @@
                 </div>
             </div>
 
-            <!-- BLOQUE 5: DATOS DE CONTACTO -->
-<div class="block" id="block5">
-    <div class="block-header">
-        <div class="block-title">Bloque 5: Datos de Contacto (Obligatorio)</div>
-        <div class="block-subtitle">Tu información será siempre confidencial, no se publicarán tus respuestas y se usarán de manera agregada para análisis.</div>
-    </div>
+                <!-- BLOQUE 5: DATOS DE CONTACTO -->
+            <div class="block" id="block5">
+                <div class="block-header">
+                    <div class="block-title">Bloque 5: Datos de Contacto (Obligatorio)</div>
+                    <div class="block-subtitle">Tu información será siempre confidencial, no se publicarán tus respuestas y se usarán de manera agregada para análisis.</div>
+                </div>
 
-    <div class="question" data-question-id="q15">
-        <div class="question-label">15. Nombre y Apellido</div>
-        <input type="text" name="q15" class="input-field" placeholder="Ej: Juan Pérez">
-        <div class="error-message">Por favor, ingresa tu nombre y apellido.</div>
-    </div>
+                <div class="question" data-question-id="q15">
+                    <div class="question-label">15. Nombre y Apellido</div>
+                    <input type="text" name="q15" class="input-field" placeholder="Ej: Juan Pérez">
+                    <div class="error-message">Por favor, ingresa tu nombre y apellido.</div>
+                </div>
 
-    <div class="question" data-question-id="q16">
-        <div class="question-label">16. RUT (Personal)</div>
-        <input type="text" name="q16" class="input-field rut-field" placeholder="Ej: 12.345.678-9" maxlength="12">
-        <div class="error-message">Por favor, ingresa un RUT válido.</div>
-    </div>
-    
-    <div class="question" data-question-id="q17">
-        <div class="question-label">17. Nombre de la Empresa</div>
-        <input type="text" name="q17" class="input-field" placeholder="Ej: Constructora El Futuro SpA">
-        <div class="error-message">Por favor, ingresa el nombre de la empresa.</div>
-    </div>
+                <div class="question" data-question-id="q16">
+                    <div class="question-label">16. RUT (Personal)</div>
+                    <input type="text" name="q16" class="input-field rut-field" placeholder="Ej: 12.345.678-9" maxlength="12">
+                    <div class="error-message">Por favor, ingresa un RUT válido.</div>
+                </div>
+                
+                <div class="question" data-question-id="q17">
+                    <div class="question-label">17. Nombre de la Empresa</div>
+                    <input type="text" name="q17" class="input-field" placeholder="Ej: Constructora El Futuro SpA">
+                    <div class="error-message">Por favor, ingresa el nombre de la empresa.</div>
+                </div>
 
-    <div class="question" data-question-id="q18">
-        <div class="question-label">18. RUT de la Empresa</div>
-        <input type="text" name="q18" class="input-field rut-field" placeholder="Ej: 76.123.456-7" maxlength="12">
-        <div class="error-message">Por favor, ingresa un RUT válido para la empresa.</div>
-    </div>
+                <div class="question" data-question-id="q18">
+                    <div class="question-label">18. RUT de la Empresa</div>
+                    <input type="text" name="q18" class="input-field rut-field" placeholder="Ej: 76.123.456-7" maxlength="12">
+                    <div class="error-message">Por favor, ingresa un RUT válido para la empresa.</div>
+                </div>
 
-    <div class="question" data-question-id="q20">
-        <div class="question-label">19. Cargo en la Empresa</div>
-        <input type="text" name="q20" class="input-field" placeholder="Ej: Gerente General, Jefe de Operaciones">
-        <div class="error-message">Por favor, ingresa tu cargo.</div>
-    </div>
+                <div class="question" data-question-id="q20">
+                    <div class="question-label">19. Cargo en la Empresa</div>
+                    <input type="text" name="q20" class="input-field" placeholder="Ej: Gerente General, Jefe de Operaciones">
+                    <div class="error-message">Por favor, ingresa tu cargo.</div>
+                </div>
 
-    <div class="question" data-question-id="q19">
-        <div class="question-label">20. Correo Electrónico de Contacto</div>
-        <input type="email" name="q19" class="input-field" placeholder="Ej: juan.perez@empresa.cl">
-        <div class="error-message">Por favor, ingresa un correo electrónico válido.</div>
+                <div class="question" data-question-id="q19">
+                    <div class="question-label">20. Correo Electrónico de Contacto</div>
+                    <input type="email" name="q19" class="input-field" placeholder="Ej: juan.perez@empresa.cl">
+                    <div class="error-message">Por favor, ingresa un correo electrónico válido.</div>
+                </div>
+            </div>
+
+            <!-- PÁGINA DE COMPLETADO -->
+            <div class="block" id="completion">
+                <div class="completion-message">
+                    <h2>¡Gracias por tu participación! 🎉</h2>
+                    <p>Tus respuestas son muy valiosas para nosotros. Utilizaremos esta información para diseñar actividades formativas que respondan a las necesidades reales de los socios de la CChC.</p>
+                    <br>
+                    <p><strong>Te mantendremos informado sobre las próximas actividades diseñadas especialmente para ti.</strong></p>
+                    <br>
+                    <p style="font-size: 0.9em; color: #888;">Equipo Compromiso PRO - CChC</p>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousBlock()">← Anterior</button>
+                <div class="step-indicator" id="stepIndicator">Bloque 1 de 5</div>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextBlock()">Siguiente →</button>
+            </div>
+        </div>
     </div>
-</div>
 
     <script>
     // --- LÓGICA DEL FORMULARIO ---

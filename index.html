@@ -47,16 +47,28 @@
         .option { display: flex; align-items: center; padding: 12px 15px; border: 2px solid #e9ecef; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s ease; }
         .option:hover { border-color: var(--color-azul); background: #f0f7ff; }
         .option.selected { border-color: var(--color-azul); background: #e6f2ff; }
+        .option.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
         .option input[type="radio"], .option input[type="checkbox"] { margin-right: 12px; width: 18px; height: 18px; accent-color: var(--color-azul); }
         
+        /* Campo condicional para "Otro" */
+        .conditional-field { display: none; margin-top: 10px; margin-left: 30px; animation: fadeIn 0.3s ease; }
+        .conditional-field.visible { display: block; }
+        .conditional-field input { width: calc(100% - 30px); padding: 12px 15px; border: 2px solid #e9ecef; border-radius: 10px; font-size: 1em; font-family: inherit; }
+        .conditional-field input:focus { outline: none; border-color: var(--color-azul); }
+
+        /* Mensaje de límite para checkboxes */
+        .limit-message { font-size: 0.85em; color: var(--color-naranja); margin-top: 5px; display: none; }
+        .limit-message.visible { display: block; }
+
         /* Estilos para el Ranking Interactivo */
         .ranking-wrapper { display: flex; gap: 20px; flex-wrap: wrap; }
         .ranking-column { flex: 1; min-width: 250px; }
         .ranking-column h3 { font-size: 1em; color: #555; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+        .ranking-hint { font-size: 0.8em; color: #888; font-style: italic; margin-bottom: 10px; }
         .ranking-source .option { cursor: pointer; user-select: none; }
         .ranking-source .option.selected { background-color: #f1f3f5; color: #adb5bd; cursor: not-allowed; border-color: #e9ecef; }
         .ranking-source .option.selected:hover { background-color: #f1f3f5; }
-        .ranking-target .target-slot { display: flex; align-items: center; padding: 12px 15px; border: 2px dashed #ced4da; border-radius: 10px; margin-bottom: 8px; color: #6c757d; height: 53px; transition: all 0.2s ease; }
+        .ranking-target .target-slot { display: flex; align-items: center; padding: 12px 15px; border: 2px dashed #ced4da; border-radius: 10px; margin-bottom: 8px; color: #6c757d; min-height: 60px; height: auto; transition: all 0.2s ease; }
         .ranking-target .target-slot.filled { border-style: solid; border-color: var(--color-azul); background: #e6f2ff; color: #333; cursor: grab; }
         .ranking-target .target-slot.over { border-color: var(--color-naranja); background-color: #fff5f0; }
         .ranking-target .target-slot.dragging { opacity: 0.4; }
@@ -136,13 +148,17 @@
                          <label class="option"><input type="radio" name="q1" value="industrial"><span>Industrial (fabricación de insumos)</span></label>
                          <label class="option"><input type="radio" name="q1" value="otro"><span>Otro</span></label>
                     </div>
+                    <!-- Campo condicional para "Otro" -->
+                    <div class="conditional-field" id="q1OtroField">
+                        <input type="text" name="q1_otro" placeholder="Por favor, especifica tu actividad principal...">
+                    </div>
                     <div class="error-message">Por favor, selecciona una opción.</div>
                 </div>
 
                 <div class="question" data-question-id="q2">
                     <div class="question-label">2. ¿En qué tipo de proyectos se concentra principalmente tu actividad?</div>
                     <div class="question-type">Pregunta de selección múltiple (hasta dos opciones)</div>
-                    <div class="options">
+                    <div class="options" id="q2Options">
                          <label class="option"><input type="checkbox" name="q2" value="vivienda"><span>Vivienda (en altura / casas)</span></label>
                          <label class="option"><input type="checkbox" name="q2" value="vivienda_social"><span>Vivienda social</span></label>
                          <label class="option"><input type="checkbox" name="q2" value="oficinas"><span>Oficinas / Comercial</span></label>
@@ -150,6 +166,7 @@
                          <label class="option"><input type="checkbox" name="q2" value="infraestructura"><span>Infraestructura pública / Obras civiles</span></label>
                          <label class="option"><input type="checkbox" name="q2" value="salud"><span>Salud / Educación</span></label>
                     </div>
+                    <div class="limit-message" id="q2LimitMsg">⚠️ Máximo 2 opciones. Desmarca una para seleccionar otra.</div>
                     <div class="error-message">Por favor, selecciona hasta dos opciones.</div>
                 </div>
 
@@ -219,6 +236,7 @@
                     <div class="ranking-wrapper" id="ranking_q5">
                         <div class="ranking-column">
                             <h3>Opciones Disponibles</h3>
+                            <p class="ranking-hint">Haz clic para seleccionar</p>
                             <div class="ranking-source">
                                 <div class="option" data-value="precio_materiales">Aumento constante en el precio de materiales</div>
                                 <div class="option" data-value="falta_trabajadores">Falta de trabajadores capacitados</div>
@@ -233,6 +251,7 @@
                         </div>
                         <div class="ranking-column">
                             <h3>Tu Ranking</h3>
+                            <p class="ranking-hint">Arrastra para reordenar</p>
                             <div class="ranking-target">
                                 <div class="target-slot"><span class="rank-number">1º</span></div>
                                 <div class="target-slot"><span class="rank-number">2º</span></div>
@@ -264,6 +283,7 @@
                      <div class="ranking-wrapper" id="ranking_q7">
                         <div class="ranking-column">
                             <h3>Opciones Disponibles</h3>
+                            <p class="ranking-hint">Haz clic para seleccionar</p>
                             <div class="ranking-source">
                                 <div class="option" data-value="inestabilidad_economica">La inestabilidad económica y el acceso a financiamiento</div>
                                 <div class="option" data-value="exigencias_normativas">Las nuevas exigencias normativas y medioambientales</div>
@@ -275,6 +295,7 @@
                         </div>
                         <div class="ranking-column">
                             <h3>Tu Ranking</h3>
+                            <p class="ranking-hint">Arrastra para reordenar</p>
                             <div class="ranking-target">
                                 <div class="target-slot"><span class="rank-number">1º</span></div>
                                 <div class="target-slot"><span class="rank-number">2º</span></div>
@@ -333,7 +354,7 @@
                     <div class="question-label">11. De todas las que marcaste, si tuvieras que elegir UNA SOLA área para un taller práctico el próximo mes, ¿cuál sería la que te generaría un impacto más inmediato?</div>
                     <div class="question-type">Pregunta de opción única (basada en respuestas anteriores)</div>
                     <div class="options" id="q11Options">
-                         <p style="color: #666; font-style: italic;">Selecciona primero tus áreas de interés en la pregunta anterior.</p>
+                         <p style="color: #666; font-style: italic;">👆 Selecciona primero tus áreas de interés en la pregunta anterior.</p>
                     </div>
                     <div class="error-message">Por favor, selecciona tu área prioritaria.</div>
                 </div>
@@ -522,13 +543,26 @@
         const questions = block.querySelectorAll('.question');
         questions.forEach(question => {
             const qId = question.dataset.questionId;
-            if (qId === 'q13') return;
+            if (qId === 'q13') return; // Pregunta opcional
 
             let questionIsValid = true;
             
-            const radio = question.querySelector('input[type="radio"]');
-            if (radio) {
-                questionIsValid = question.querySelector(`input[name="${radio.name}"]:checked`) !== null;
+            // Validación especial para Q1 con "Otro"
+            if (qId === 'q1') {
+                const selectedRadio = question.querySelector('input[name="q1"]:checked');
+                if (!selectedRadio) {
+                    questionIsValid = false;
+                } else if (selectedRadio.value === 'otro') {
+                    const otroField = document.querySelector('input[name="q1_otro"]');
+                    questionIsValid = otroField && otroField.value.trim() !== '';
+                }
+            }
+            // Validación normal para otros radios
+            else {
+                const radio = question.querySelector('input[type="radio"]');
+                if (radio) {
+                    questionIsValid = question.querySelector(`input[name="${radio.name}"]:checked`) !== null;
+                }
             }
 
             const checkbox = question.querySelector('input[type="checkbox"]');
@@ -542,7 +576,7 @@
             }
 
             const textInput = question.querySelector('.text-input, .input-field');
-            if (textInput) {
+            if (textInput && !question.querySelector('input[type="radio"]') && !question.querySelector('input[type="checkbox"]')) {
                 if (textInput.type === 'email') {
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     questionIsValid = emailRegex.test(textInput.value);
@@ -577,6 +611,61 @@
         questionElement.classList.remove('is-invalid');
         const errorMsg = questionElement.querySelector('.error-message');
         if (errorMsg) errorMsg.style.display = 'none';
+    }
+
+    // ============================================
+    // LÓGICA PARA Q1 "OTRO" (Campo condicional)
+    // ============================================
+    function setupQ1Otro() {
+        const q1Radios = document.querySelectorAll('input[name="q1"]');
+        const otroField = document.getElementById('q1OtroField');
+        
+        q1Radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.value === 'otro' && radio.checked) {
+                    otroField.classList.add('visible');
+                    otroField.querySelector('input').focus();
+                } else {
+                    otroField.classList.remove('visible');
+                    otroField.querySelector('input').value = ''; // Limpiar si cambia de opción
+                }
+            });
+        });
+    }
+
+    // ============================================
+    // LÓGICA PARA Q2 (Límite de 2 checkboxes)
+    // ============================================
+    function setupQ2Limit() {
+        const q2Checkboxes = document.querySelectorAll('input[name="q2"]');
+        const q2Options = document.querySelectorAll('#q2Options .option');
+        const limitMsg = document.getElementById('q2LimitMsg');
+        
+        q2Checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const checkedCount = document.querySelectorAll('input[name="q2"]:checked').length;
+                
+                if (checkedCount >= 2) {
+                    // Deshabilitar las no seleccionadas
+                    q2Options.forEach(option => {
+                        const cb = option.querySelector('input[type="checkbox"]');
+                        if (!cb.checked) {
+                            option.classList.add('disabled');
+                            cb.disabled = true;
+                        }
+                    });
+                    limitMsg.classList.add('visible');
+                } else {
+                    // Habilitar todas
+                    q2Options.forEach(option => {
+                        const cb = option.querySelector('input[type="checkbox"]');
+                        option.classList.remove('disabled');
+                        cb.disabled = false;
+                    });
+                    limitMsg.classList.remove('visible');
+                }
+            });
+        });
     }
 
     // ============================================
@@ -673,7 +762,7 @@
     }
 
     // ============================================
-    // LÓGICA DE PREGUNTAS DINÁMICAS (Q11)
+    // LÓGICA DE PREGUNTAS DINÁMICAS (Q11) - MEJORADA
     // ============================================
     function setupDynamicQ11() {
         const q10Checkboxes = document.querySelectorAll('input[name="q10"]');
@@ -687,16 +776,28 @@
             const selectedOptions = document.querySelectorAll('input[name="q10"]:checked');
             
             if (selectedOptions.length === 0) {
-                q11OptionsContainer.innerHTML = `<p style="color: #666; font-style: italic;">Selecciona primero tus áreas de interés en la pregunta anterior.</p>`;
+                q11OptionsContainer.innerHTML = `<p style="color: #666; font-style: italic;">👆 Selecciona primero tus áreas de interés en la pregunta anterior.</p>`;
                 return;
             }
             
+            // Verificar si la selección guardada todavía existe en Q10
+            const selectedValues = Array.from(selectedOptions).map(o => o.value);
+            const savedValueStillExists = savedValue && selectedValues.includes(savedValue);
+            
             selectedOptions.forEach(option => {
                 const label = option.parentElement.querySelector('span').textContent;
-                const isChecked = option.value === savedValue ? 'checked' : '';
+                const isChecked = (option.value === savedValue && savedValueStillExists) ? 'checked' : '';
                 const optionHtml = `<label class="option ${isChecked ? 'selected' : ''}"><input type="radio" name="q11" value="${option.value}" ${isChecked}><span>${label}</span></label>`;
                 q11OptionsContainer.innerHTML += optionHtml;
             });
+
+            // Si la selección previa ya no existe, mostrar aviso sutil
+            if (savedValue && !savedValueStillExists) {
+                const aviso = document.createElement('p');
+                aviso.style.cssText = 'color: var(--color-naranja); font-size: 0.85em; margin-top: 10px;';
+                aviso.textContent = '⚠️ Tu selección anterior fue removida. Por favor, elige nuevamente.';
+                q11OptionsContainer.appendChild(aviso);
+            }
         };
         
         q10Checkboxes.forEach(checkbox => checkbox.addEventListener('change', updateQ11Options));
@@ -749,7 +850,7 @@
         const honeypot = document.querySelector('input[name="website"]');
         if (honeypot && honeypot.value !== '') {
             console.log('Bot detectado');
-            return null; // Retorna null si es un bot
+            return null;
         }
 
         document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked, .text-input, .input-field').forEach(input => {
@@ -762,6 +863,12 @@
                 data[input.name] = sanitizeInput(input.value);
             }
         });
+
+        // Si Q1 es "otro", concatenar con el valor especificado
+        if (data.q1 === 'otro' && data.q1_otro) {
+            data.q1 = `otro: ${data.q1_otro}`;
+        }
+        delete data.q1_otro; // Limpiar campo auxiliar
 
         document.querySelectorAll('.ranking-wrapper').forEach(wrapper => {
             const qId = wrapper.id.replace('ranking_', '');
@@ -825,10 +932,14 @@
     // INICIALIZACIÓN
     // ============================================
     document.addEventListener('DOMContentLoaded', () => {
+        // Setup de funcionalidades específicas
+        setupQ1Otro();      // Campo "Otro" en Q1
+        setupQ2Limit();     // Límite de 2 en Q2
         setupRankingInteraction('ranking_q5');
         setupRankingInteraction('ranking_q7');
-        setupDynamicQ11();
+        setupDynamicQ11();  // Q11 dinámico mejorado
         
+        // Formato RUT
         document.querySelectorAll('.rut-field').forEach(field => {
             field.addEventListener('input', (e) => {
                 const cursorPosition = e.target.selectionStart;
@@ -844,17 +955,20 @@
             });
         });
 
+        // Limpiar errores al interactuar
         document.querySelectorAll('.question').forEach(q => {
              q.addEventListener('change', () => clearError(q));
              q.addEventListener('input', () => clearError(q));
         });
 
+        // Feedback visual para opciones seleccionadas
         document.addEventListener('change', function(e) {
             if (e.target.type === 'radio' || e.target.type === 'checkbox') {
                 const option = e.target.closest('.option');
                 if (option) {
                     if (e.target.type === 'radio') {
-                        option.parentElement.querySelectorAll('.option').forEach(s => s.classList.remove('selected'));
+                        const parent = option.closest('.options') || option.parentElement;
+                        parent.querySelectorAll('.option').forEach(s => s.classList.remove('selected'));
                     }
                     option.classList.toggle('selected', e.target.checked);
                 }
